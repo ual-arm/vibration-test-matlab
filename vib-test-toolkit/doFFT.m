@@ -1,14 +1,3 @@
-# vibration-test-matlab
-MATLAB toolkit for vibration test analysis of mechanical specimens
-
-Supported hardware: 
-- Output: Agilent signal generator for mechanical shaker.
-- Input: Piezoelectric accelerometers + signal conditioner + National Instrument DAQ.
-
-Program main entry point: `resonancia.m`
-
-
-```
 %*****************************************************************************
 %*              Vibration test toolkit (VTT) for MATLAB                      *
 %* Copyright (2011-2016) - Eloy Casas Villalba, Jose-Luis Blanco Claraco,    *
@@ -29,4 +18,38 @@ Program main entry point: `resonancia.m`
 %* You should have received a copy of the GNU General Public License         *
 %* along with VTT.  If not, see <http://www.gnu.org/licenses/>.              *
 %*****************************************************************************
-```
+
+function [ f,mag ] = doFFT( data,time,ActualRate,duration )
+%----------------------------Filtro----------------------------------------
+% fs=ActualRate;
+% wo = 2*50/fs; bw = wo/70;
+% [b,a] = iirnotch(wo,bw,25);
+% data2 = filter(b,a,data);
+% data=data2;
+subplot(2,1,1)% varias graficas en la misma ventana [2filas, 1columna,Nº1]
+plot(time,data) %Dibujamos los datos
+axis ([1 1.5 -0.1 0.1])
+grid on %Propiedades de la gráfica
+ylabel('Magnitud (V)')
+xlabel('Tiempo (s)')
+title('Dominio del Tiempo')
+%-------------------ANALIZAMOS LOS DATOS-----------------------------------
+absdata=abs(data); %Valor absoluto de data
+freq_=mean(absdata); %Media aritmética de absdata
+%-----------------REALIZAMOS EL ANALISIS DE FRECUENCIAS--------------------
+Fs=ActualRate;
+blocksize= duration*ActualRate;
+[f,mag]=daqdocfft(data,Fs,blocksize); %Transformada rápida de Fourier (FFT)
+[ymax,maxindex]=max(mag); %Frecuencia maxima
+freq_=f(maxindex);
+subplot(2,1,2)% varias graficas en la misma ventana [2filas,1columna, Nº2]
+plot(f,mag)
+axis([0 freq_+0.3*freq_ -25 125])% Configuracion de los ejes
+grid on %Propiedades de la gráfica
+ylabel('Magnitud (dB)')
+xlabel('Frequencia (Hz)')
+title('Dominio de la Frecuencia. Analisis Armónico')
+
+
+end
+

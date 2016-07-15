@@ -1,14 +1,3 @@
-# vibration-test-matlab
-MATLAB toolkit for vibration test analysis of mechanical specimens
-
-Supported hardware: 
-- Output: Agilent signal generator for mechanical shaker.
-- Input: Piezoelectric accelerometers + signal conditioner + National Instrument DAQ.
-
-Program main entry point: `resonancia.m`
-
-
-```
 %*****************************************************************************
 %*              Vibration test toolkit (VTT) for MATLAB                      *
 %* Copyright (2011-2016) - Eloy Casas Villalba, Jose-Luis Blanco Claraco,    *
@@ -29,4 +18,31 @@ Program main entry point: `resonancia.m`
 %* You should have received a copy of the GNU General Public License         *
 %* along with VTT.  If not, see <http://www.gnu.org/licenses/>.              *
 %*****************************************************************************
-```
+
+salir_archivos=1;
+while salir_archivos==1
+clc;
+show_program_info();
+
+fprintf('------------------------\n');
+fprintf('Cargar y Salvar Archivos\n');
+fprintf('------------------------\n\n');
+fprintf('IMPORTANTE: SALVE ANTES DE CARGAR, LOS DATOS PUEDEN SOBREESCRIBIRSE Y PERDERLOS\n\n');
+fprintf('0: Salir del programa\n');
+fprintf('1: Cargar Datos\n');
+fprintf('2: Salvar datos\n');
+opc_archivos=input('Inserte Opcion: ');
+switch opc_archivos;
+    case 0
+        salir_archivos=0;
+        
+    case 1
+        G=input('Nombre de Archivo: ','s');
+        load(G);
+        
+    case 2
+        arch=input('Nombre del archivo [DATOS,N]: ','s');
+        save(arch,'DATOS','N');
+        
+    end
+end

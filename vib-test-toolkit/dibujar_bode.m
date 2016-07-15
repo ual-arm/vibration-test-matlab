@@ -1,14 +1,3 @@
-# vibration-test-matlab
-MATLAB toolkit for vibration test analysis of mechanical specimens
-
-Supported hardware: 
-- Output: Agilent signal generator for mechanical shaker.
-- Input: Piezoelectric accelerometers + signal conditioner + National Instrument DAQ.
-
-Program main entry point: `resonancia.m`
-
-
-```
 %*****************************************************************************
 %*              Vibration test toolkit (VTT) for MATLAB                      *
 %* Copyright (2011-2016) - Eloy Casas Villalba, Jose-Luis Blanco Claraco,    *
@@ -29,4 +18,35 @@ Program main entry point: `resonancia.m`
 %* You should have received a copy of the GNU General Public License         *
 %* along with VTT.  If not, see <http://www.gnu.org/licenses/>.              *
 %*****************************************************************************
-```
+
+show_program_info();
+fprintf('-----------------\n');
+fprintf('Resultados [BODE]\n');
+fprintf('-----------------\n\n');
+    trasnfer_func= DATOS(:,3)./DATOS(:,2); %Dividimos la salida entre la entrada
+    bode_magdb=20*log10(abs(trasnfer_func)); %Pasamos a decibelios
+    bode_phase=angle(trasnfer_func);
+    phase_deg=radtodeg(bode_phase);
+    bode_freq=DATOS(:,1);
+    [maxmagbd,maxmagbdindex]=max(bode_magdb);
+    [minmagbd,minmagbdindex]=min(bode_magdb);
+    freq_resonancia=bode_freq(maxmagbdindex);
+fprintf('___________________________________________________');
+fprintf('\nFRECUENCIA DE RESONANCIA %f Hz \n',freq_resonancia);
+cla;
+    subplot(2,1,1)
+    semilogx (bode_freq, bode_magdb);
+    hold on; semilogx (bode_freq, bode_magdb,'.');
+    v=size(bode_freq);
+    %axis([1 v(1,1) minmagbd-0.2*minmagbd maxmagbd+0.2*maxmagbd]);
+    
+    grid on;
+    ylabel('Magnitud (dB)')
+    xlabel('Frecuencia (Hz)')
+    title('Bode Plot')
+    subplot(2,1,2)% Segunda gráfica con la fase [2filas,1columna, Nº2]
+    semilogx(bode_freq,phase_deg)
+    grid on
+    ylabel('Fase(Grados)')
+    xlabel('Frecuencia (Hz)')    
+pause;

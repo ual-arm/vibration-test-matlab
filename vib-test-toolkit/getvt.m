@@ -1,14 +1,3 @@
-# vibration-test-matlab
-MATLAB toolkit for vibration test analysis of mechanical specimens
-
-Supported hardware: 
-- Output: Agilent signal generator for mechanical shaker.
-- Input: Piezoelectric accelerometers + signal conditioner + National Instrument DAQ.
-
-Program main entry point: `resonancia.m`
-
-
-```
 %*****************************************************************************
 %*              Vibration test toolkit (VTT) for MATLAB                      *
 %* Copyright (2011-2016) - Eloy Casas Villalba, Jose-Luis Blanco Claraco,    *
@@ -29,4 +18,13 @@ Program main entry point: `resonancia.m`
 %* You should have received a copy of the GNU General Public License         *
 %* along with VTT.  If not, see <http://www.gnu.org/licenses/>.              *
 %*****************************************************************************
-```
+
+clc;
+show_program_info();
+fprintf('-------------------------------\n');
+fprintf('Comunicacion con Agilent 33220A\n');
+fprintf('-------------------------------\n');
+fprintf('\nIMPORTANTE: clearNO ELIMINE vt NI CIERRE MATLAB HASTA FINALIZAR LA COMUNICACION\n');
+fprintf('IMPORTANTE: NO INICIE LA COMUNICACION HASTA TENER CONEXION LOCAL LAN\n\n');
+get(vt);
+pause;

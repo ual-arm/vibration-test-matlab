@@ -1,14 +1,3 @@
-# vibration-test-matlab
-MATLAB toolkit for vibration test analysis of mechanical specimens
-
-Supported hardware: 
-- Output: Agilent signal generator for mechanical shaker.
-- Input: Piezoelectric accelerometers + signal conditioner + National Instrument DAQ.
-
-Program main entry point: `resonancia.m`
-
-
-```
 %*****************************************************************************
 %*              Vibration test toolkit (VTT) for MATLAB                      *
 %* Copyright (2011-2016) - Eloy Casas Villalba, Jose-Luis Blanco Claraco,    *
@@ -29,4 +18,41 @@ Program main entry point: `resonancia.m`
 %* You should have received a copy of the GNU General Public License         *
 %* along with VTT.  If not, see <http://www.gnu.org/licenses/>.              *
 %*****************************************************************************
-```
+
+
+salir_freq_datos=1;
+%Distinguimos entre 0 datos tomados y algun dato tomado.
+while salir_freq_datos==1
+if N==1
+ordenar
+clc;
+show_program_info();
+
+fprintf('-------------\n');
+fprintf('Datos tomados\n');
+fprintf('-------------\n\n');
+fprintf('\n Nºde Datos tomados: %.0f \n\n',N-1);
+end
+if N~=1
+ordenar;
+clc;
+fprintf('\t\t\t\t\t\t\t\t==============\n');
+fprintf('\t\t\t\t\t\t\t\tRESONANCIA 1.0\n');
+fprintf('\t\t\t\t\t\t\t\t==============\n\n');
+fprintf('Programa creado por Juan José Arévalo Martín \n');
+fprintf('Curso 2010-2011 \n');
+fprintf('Todos los derechos reservados © \n\n\n');
+fprintf('-------------\n');
+fprintf('Datos tomados\n');
+fprintf('-------------\n\n');
+disp(DATOS);
+s=input('Desea borrar los datos (s/n)','s');
+if(s=='s')
+%Borramos los datos
+clear DATOS;
+N=1;
+DATOS=[];
+end
+end
+salir_freq_datos=input('0: Salir');
+end
